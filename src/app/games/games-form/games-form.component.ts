@@ -4,7 +4,6 @@ import { GamesService } from "../../services/games.service";
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Response } from '@angular/http';
 import 'rxjs/add/operator/catch'
-import { FormGroup, FormControl } from "@angular/forms";
 @Component({
   selector: 'app-games-form',
   templateUrl: './games-form.component.html',
@@ -15,14 +14,6 @@ export class GamesFormComponent implements OnInit {
   constructor(private gamesService:GamesService,
               private router:Router,
               private route:ActivatedRoute) { }
-
-  formGames = new FormGroup({
-    'name': new FormControl(),
-    'genre': new FormControl(),
-    'platform': new FormControl(),
-    'launchDate': new FormControl(),    
-    'esrbRating': new FormControl()
-  });
 
   platforms = [
     { value: 'pc', label: "PC"},
@@ -57,18 +48,19 @@ export class GamesFormComponent implements OnInit {
   }
 
   save(){
-    const filme = this.formGames.value;
+    const game = new Game(this.game.name,this.game.genre, this.game.platform, this.game.launchDate,this.game.esrbRating);
     if(this.key){
-      this.gamesService.update(this.game, this.key).subscribe(
+      this.gamesService.update(game, this.key).subscribe(
         (res:Response)=>{
           console.log(res.json());
+          this.router.navigate(['']);
         }
       );
     }else{
       console.log('save do form')
-      this.gamesService.save(this.game).catch(
+      this.gamesService.save(game).catch(
         (res : any) => {
-          console.log(res);
+          console.log(res);          
           return null;
         }
       ).subscribe(

@@ -1,9 +1,9 @@
-<form [formGroup]="formGames" class="container-fluid" (ngSubmit)="save()">
+<form class="container-fluid" (ngSubmit)="save()">
   <div class="row">
     <div class="col-md-4">
       <div class="form-group">
         <label for="name" class="control-label">Name</label>
-        <input class="form-control" id="name" name="name" type="text"> 
+        <input class="form-control" id="name" name="name" type="text" [(ngModel)]="game.name"> 
       </div>
     </div>
   </div>
@@ -11,7 +11,7 @@
     <div class="col-md-4">
       <div class="form-group">
         <label for="genre" class="control-label">Genre</label>
-        <input class="form-control" id="genre" name="genre" type="text"> 
+        <input class="form-control" id="genre" name="genre" type="text" [(ngModel)]="game.genre"> 
       </div>
     </div>
   </div>
@@ -19,7 +19,7 @@
     <div class="col-md-4">
       <div class="form-group">
         <label for="platform" class="control-label">Platform</label>
-        <select class="form-control" id="platform" name="platform" type="text"> 
+        <select class="form-control" id="platform" name="platform" type="text" [(ngModel)]="game.platform"> 
             <option *ngFor="let platform of platforms"
                     [value]="platform.value">{{platform.label}}</option>
         </select>
@@ -30,7 +30,7 @@
     <div class="col-md-4">
       <div class="form-group">
         <label for="launchDate" class="control-label">Launch Date</label>
-        <input class="form-control" id="launchDate" name="launchDate" type="date"> 
+        <input class="form-control" id="launchDate" name="launchDate" type="date" [(ngModel)]="game.launchDate"> 
       </div>
     </div>
   </div>
@@ -38,7 +38,7 @@
     <div class="col-md-4">
       <div class="form-group">
         <label for="esrbRating" class="control-label">ESRB Rating</label>
-        <input class="form-control" id="esrbRating" name="esrbRating" type="text"> 
+        <input class="form-control" id="esrbRating" name="esrbRating" type="text" [(ngModel)]="game.esrbRating"> 
       </div>
     </div>
   </div>
