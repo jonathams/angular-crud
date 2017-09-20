@@ -1,0 +1,39 @@
+<div class="container-fluid">
+  <button type="button" class="btn btn-primary" routerLink="new">Add Game</button>
+
+  <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Genre</th>
+          <th>Platform</th>
+          <th>Launch Date</th>
+          <th>ESRB Rating</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let game of games; let i = index" >
+          <td>{{ game.name }}</td>
+          <td>{{ game.genre }}</td>
+          <td>{{ game.platform }}</td>
+          <td>{{ game.launchDate | date : 'dd/MM/yyyy' }}</td>
+          <td>{{ game.esrbRating }}</td>
+          <td>
+            <div class="dropdown" appDropdown>
+              <button class="btn btn-default dropdown-toggle" type="button" id="dropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                Options
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropDownMenu">
+                <li><a [routerLink]="[game.$key , 'edit']">Edit</a></li>
+                <li><a [routerLink]="[game.$key]">Detail</a></li>
+                <li><a (click)="delete(i)">Delete</a></li>                
+              </ul>
+            </div>  
+          
+          </td>          
+        </tr>
+      </tbody>
+  </table>
+</div>
