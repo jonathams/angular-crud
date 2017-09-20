@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Game } from "../game.model";
 import { GamesService } from "../../services/games.service";
-import { ActivatedRoute, Params } from "@angular/router";
+import { ActivatedRoute, Params, Router } from "@angular/router";
 
 @Component({
   selector: 'app-games-detail',
@@ -11,16 +11,21 @@ import { ActivatedRoute, Params } from "@angular/router";
 export class GamesDetailComponent implements OnInit {
 
   constructor(private gamesService:GamesService,
-              private route:ActivatedRoute) { }
+              private route:ActivatedRoute,
+              private router:Router) { }
 
-  game:Game = new Game;
+  key:string;
+
+  game:Game = new Game();
 
   ngOnInit() {
     this.route.params.subscribe(
       (params:Params)=>{
-        let key = params.id;
-        if(key != undefined){
-          this.gamesService.getGame(key).subscribe(
+        this.key = params.id;
+
+        console.log('key = ' , this.key);
+        if(this.key != undefined){
+          this.gamesService.getGame(this.key).subscribe(
             (game:Game)=>{
               this.game = game;
             }
@@ -28,5 +33,13 @@ export class GamesDetailComponent implements OnInit {
         }
       }
     )
+  }
+
+  delete(){
+    this.gamesService.delete(this.key).subscribe(
+      ()=>{
+        this.router.navigate(['']);
+      }
+    );    
   }
 }

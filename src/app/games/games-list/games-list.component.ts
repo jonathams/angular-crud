@@ -34,4 +34,4 @@ export class GamesListComponent implements OnInit {
       }
     );
   }
-}
+} 

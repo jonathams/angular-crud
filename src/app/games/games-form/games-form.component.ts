@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Game } from "../game.model";
 import { GamesService } from "../../services/games.service";
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Response } from '@angular/http';
 import 'rxjs/add/operator/catch'
+import { FormGroup, FormControl } from "@angular/forms";
 @Component({
   selector: 'app-games-form',
   templateUrl: './games-form.component.html',
@@ -11,9 +12,17 @@ import 'rxjs/add/operator/catch'
 })
 export class GamesFormComponent implements OnInit {
 
-  constructor(private gameService:GamesService,
+  constructor(private gamesService:GamesService,
               private router:Router,
               private route:ActivatedRoute) { }
+
+  formGames = new FormGroup({
+    'name': new FormControl(),
+    'genre': new FormControl(),
+    'platform': new FormControl(),
+    'launchDate': new FormControl(),    
+    'esrbRating': new FormControl()
+  });
 
   platforms = [
     { value: 'pc', label: "PC"},
@@ -26,23 +35,48 @@ export class GamesFormComponent implements OnInit {
     { value: 'switch', label: "Nintendo Switch"}    
   ];
 
+  key:string;
+
   game:Game = new Game();
 
   ngOnInit() {
+    this.route.params.subscribe(
+      (params:Params)=>{
+        this.key = params.id;
+
+        console.log('key = ' , this.key);
+        if(this.key != undefined){
+          this.gamesService.getGame(this.key).subscribe(
+            (game:Game)=>{
+              this.game = game;
+            }
+          )
+        }
+      }
+    )
   }
 
   save(){
-    console.log('save do form')
-    this.gameService.save(this.game).catch(
-      (res : any) => {
-        console.log(res);
-        return null;
-      }
-    ).subscribe(
-      (res:Response)=>{
-        this.router.navigate(['../'], {relativeTo:this.route});
-        console.log(res);
-      }
-    );
+    const filme = this.formGames.value;
+    if(this.key){
+      this.gamesService.update(this.game, this.key).subscribe(
+        (res:Response)=>{
+          console.log(res.json());
+        }
+      );
+    }else{
+      console.log('save do form')
+      this.gamesService.save(this.game).catch(
+        (res : any) => {
+          console.log(res);
+          return null;
+        }
+      ).subscribe(
+        (res:Response)=>{
+          console.log(res);
+          this.router.navigate(['']);    
+        }
+      );
+    }
   }
 }

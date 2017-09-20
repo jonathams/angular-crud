@@ -11,7 +11,7 @@ import { FormsModule } from "@angular/forms";
 import { GamesService } from "./services/games.service";
 import { DropdownModule } from "./dropdown/dropdown.module";
 import { GamesDetailComponent } from "./games/games-detail/games-detail.component";
-
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -24,6 +24,7 @@ import { GamesDetailComponent } from "./games/games-detail/games-detail.componen
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     BrowserModule,
     AppRoutingModule,
     DropdownModule,

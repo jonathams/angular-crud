@@ -14,6 +14,10 @@ export class GamesService {
     return this.http.post(environment.gameUrl + 'games.json', game);
   }
 
+  update(game:Game, key:string){
+    return this.http.put(environment.gameUrl + 'games/' + key + '.json', game);        
+  }
+  
   delete(key:string){
     return this.http.delete(environment.gameUrl + 'games/' + key + '.json');
   }
